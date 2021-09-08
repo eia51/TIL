@@ -35,7 +35,8 @@ java.lang.NumberFormatException: multiple points
 
 ![](https://images.velog.io/images/eia51/post/60b5f805-db82-4ab1-9cd4-1804d5d30bff/a.jpg)
 
-성능을 위해 중복 인스턴스 생성을 막아보았건만, 사실 이 [SimpleDateFormat](https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html) 은 __스레드로부터 안전하지 않은__ 클래스였던 것입니다.
+성능을 위해 중복 인스턴스 생성을 막아보았건만, 사실 이 [SimpleDateFormat](https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html) 은 
+__스레드로부터 안전하지 않은__ 클래스였던 것입니다.
 
 <br/>
 
@@ -71,7 +72,6 @@ DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 LocalDateTime now = LocalDateTime.now();
 System.out.println(now.format(df));
 ```
-![](https://images.velog.io/images/eia51/post/7192d8fa-48a0-40fd-9dba-aef89281c20e/b.jpg)
 
 이렇듯 사용방법도 [SimpleDateFormat](https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html)과 유사하며, 이제 여러분들은 더이상 멀티스레드 환경에서 발생할 문제를 걱정하지 않아도 됩니다.
 
