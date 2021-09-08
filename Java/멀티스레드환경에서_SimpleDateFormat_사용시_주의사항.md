@@ -35,7 +35,8 @@ java.lang.NumberFormatException: multiple points
 
 ![](https://images.velog.io/images/eia51/post/60b5f805-db82-4ab1-9cd4-1804d5d30bff/a.jpg)
 
-성능을 위해 중복 인스턴스 생성을 막아보았건만, 사실 이 [SimpleDateFormat](https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html) 은 
+성능을 위해 중복 인스턴스 생성을 막아보았건만, 사실 이 [SimpleDateFormat](https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html)은
+
 __스레드로부터 안전하지 않은__ 클래스였던 것입니다.
 
 <br/>
@@ -89,5 +90,8 @@ System.out.println(now.format(df));
 
 #### 참고한 내용
 https://stackoverflow.com/questions/6840803/why-is-javas-simpledateformat-not-thread-safe
+
 https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+
 https://www.callicoder.com/java-simpledateformat-thread-safety-issues/
+
