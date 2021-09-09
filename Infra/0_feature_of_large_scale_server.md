@@ -20,9 +20,9 @@
 
 ### 장애회복성
 
-- 서버에 장애가 발생해도 서비스는 계속 지속될 수 있어야 한다.
-failover, replication..
+- 서버에 장애가 발생해도 서비스는 계속 지속될 수 있어야 한다. (failover, replication..)
 - 장애회복성을 위해선 SPOF가 없어져야 한다.
+
 *SPOF(single point of failure) : 한 지점에서 발생한 장애가 전체 서비스에 영향을 줄 수 있는 부분
 
 SPOF를 최대한 없애야 한다.
