@@ -58,7 +58,10 @@ OS과 기본적 네트워크 설정 이외 모든 설정을 설치 스크립트 
 
 특정 이미지를 모두 만들어두고, Terraform으로 인프라를 구성한 이후 ansible로 필요 설정을 할 수 있어야 한다.
 
+<br/>
+
 ---
 
+#### 강의 출처
 The RED : 백엔드 에센셜 : 대용량 서비스를 위한 아키텍처 with Redis by 강대명
 [https://github.com/charsyam/the_red_infra/blob/main/install_pyenv.sh](https://github.com/charsyam/the_red_infra/blob/main/install_pyenv.sh)
