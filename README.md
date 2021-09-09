@@ -4,3 +4,6 @@
   
 ## Infra
 - [0. 대규모 서비스의 특성](https://github.com/eia51/TIL/blob/main/Infra/0_feature_of_large_scale_server.md)
+
+## 독서
+- [할 수 있다! 퀀트투자](https://github.com/eia51/TIL/blob/main/Reading/0_do_it_quant.md)
