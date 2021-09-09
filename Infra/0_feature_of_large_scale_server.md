@@ -15,7 +15,7 @@
 
 이 때 어떤 종류의 서버던 (API, DB..) 쉽게 추가, 제거 될 수 있어야 한다.
 
----
+<br/><br/>
 
 ### 장애회복성
 
@@ -42,7 +42,7 @@ SPOF는 서버 뿐만이 아니라 하드웨어에서도 발생할 수 있다.
 
 > 따라서 하드웨어들도 이중화가 필요하다.
 
----
+<br/><br/>
 
 ### 자동화
 
@@ -58,6 +58,7 @@ OS과 기본적 네트워크 설정 이외 모든 설정을 설치 스크립트 
 
 특정 이미지를 모두 만들어두고, Terraform으로 인프라를 구성한 이후 ansible로 필요 설정을 할 수 있어야 한다.
 
+---
 
 The RED : 백엔드 에센셜 : 대용량 서비스를 위한 아키텍처 with Redis by 강대명
 [https://github.com/charsyam/the_red_infra/blob/main/install_pyenv.sh](https://github.com/charsyam/the_red_infra/blob/main/install_pyenv.sh)
