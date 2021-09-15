@@ -8,6 +8,8 @@
 #### Trouble Shooting
 > - [멀티스레드 환경에서 SimpleDateFormat 사용 시 주의할 점](https://github.com/eia51/TIL/blob/main/Java/TroubleShooting/caution_of_using_sdf_at_multi_thread.md)
 
+## Android
+> - [Component](https://github.com/eia51/TIL/blob/main/Android/android_component.md)
 <br/>
 
 ## Infra
