@@ -13,7 +13,7 @@
 
 ## Android
 > - [안드로이드 4대 컴포넌트](https://github.com/eia51/TIL/blob/main/Android/android_component.md)
-> - [View가 그려지는 과정](https://github.com/eia51/TIL/blob/main/Android/android_component.md)
+> - [View가 그려지는 과정](https://github.com/eia51/TIL/blob/main/Android/android_view.md)
 <br/>
 
 ## Infra
