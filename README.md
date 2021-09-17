@@ -1,4 +1,7 @@
 # Today I Learned Wiki
+>좋은 개발자가 되기 위해 하루동안 학습한 내용이나 개발관련 경험들을 기록으로 남긴다.
+>
+>Today I Learned인데 날짜를 표시하지 않는 이유는 조급해지지 않고 꾸준하기 위함이다.
 
 <br/>
 
@@ -9,7 +12,8 @@
 > - [멀티스레드 환경에서 SimpleDateFormat 사용 시 주의할 점](https://github.com/eia51/TIL/blob/main/Java/TroubleShooting/caution_of_using_sdf_at_multi_thread.md)
 
 ## Android
-> - [Component](https://github.com/eia51/TIL/blob/main/Android/android_component.md)
+> - [안드로이드 4대 컴포넌트](https://github.com/eia51/TIL/blob/main/Android/android_component.md)
+> - [View가 그려지는 과정](https://github.com/eia51/TIL/blob/main/Android/android_component.md)
 <br/>
 
 ## Infra
