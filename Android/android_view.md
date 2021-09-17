@@ -1,5 +1,39 @@
 ## View가 그려지는 과정
-뷰는 포커스를 얻었을 때 레이아웃을 드로잉을 요청합니다. 레이아웃 드로잉은 Root가 되는 ViewGroup에서 시작되어 xml 트리 구조를 따라 전위순회방식으로 그려지게 됩니다.
+안드로이드에서 UI를렌더링 하기 위한 개념들로 `Window`  `Surface`  `Canvas`  `View` 가 있습니다. 이들은 다음과 같은 순서로 분류됩니다.
+
+> Window > Surface > Canvas > View
+
+즉, 안드로이드에서 화면을 구성하기 위한 가장 큰 단위는 `Window`이며, 가장 작은 단위는 `View`입니다.
+
+<br/>
+
+### ◆ Window
+하나의 화면(Activity) 안에서는 여러개의 `Window`가 존재할 수 있으며, 이는 `Window Manager`에 의해서 관리됩니다. `Window`는 무언가를 그릴 수 있는 창이며, 하나 이상의 `Surface`를 포함하고 있습니다.
+
+App은 `Window Manager`와 상호작용하여 `Window`를 만들어내고, `Window`의 표면에 그래픽을 보여주기 위해 `Surface`를만듭니다.
+
+<br/>
+
+### ◆ Surface
+화면에 보여질 픽셀들을 보유하고 있는 객체입니다. 화면에 표시 되는 모든 `Window`는 자신에게 귀속되는 `Surface`를 보유하며, `Surface Flinger`를 통해 그래픽으로 합성되어서 Display로 보내집니다.
+
+각각의 `Surface`는 <U>이중 버퍼 렌더링</U>을 위한 2개 이상의 버퍼를 갖습니다.
+
+> **이중 버퍼 렌더링**
+> 디바이스에 출력 될 화면 데이터는 `프레임 버퍼`에 저장됩니다. 하나의 버퍼만 갖는 경우에는 다음과 같은 `Flicker`현상이 발생할 수 있습니다.
+> - 이미지가 반복해서 그려질 때, 화면이 깜빡인다.
+> - 이미지 렌더링 속도가 화면 주사율 속도를 따라가지 못할 때, 화면이 깜빡인다.
+> 이러한 문제를 해결하기 위해 `프레임 버퍼`에 바로 렌더링 하지 않고, 다른 버퍼를 만들어서 그 버퍼에 렌더링을 먼저 한 뒤, 완료된 후 `프레임버퍼`로 옮기는 방식을 사용합니다.
+
+<br/>
+
+### ◆ Canvas
+실제 UI를 그리기 위한 공간으로 비트맵, View 등이 그려집니다.
+
+<br/>
+
+### ◆ View
+`Window` 내부의 UI 요소인 뷰는 포커스를 얻었을 때 레이아웃을 드로잉을 요청합니다. 레이아웃 드로잉은 Root가 되는 ViewGroup에서 시작되어 xml 트리 구조를 따라 전위순회방식으로 그려지게 됩니다.
 
 뷰는 다음과 같이 `measure` `layout` `draw` 단계를 거쳐 그려집니다.
 
@@ -71,6 +105,8 @@
 
 #### 참고한 내용
 
-[현우의 개발노트](https://hyeonu1258.github.io/2018/03/26/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C%20%EB%A9%B4%EC%A0%91/)
+[뷰가 그려지는 과정](https://hyeonu1258.github.io/2018/03/26/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C%20%EB%A9%B4%EC%A0%91/)
+
+[Window & Surface](https://colinch4.github.io/2020-11-25/Window,-Surface,-Canvas,-View/)
 
 [뷰 그려지는 과정 사진](https://jungwoon.github.io/android/2019/10/02/How-to-draw-View.html)
