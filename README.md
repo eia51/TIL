@@ -16,7 +16,7 @@
 > - [View가 그려지는 과정](https://github.com/eia51/TIL/blob/main/Android/android_view.md)
 > - [안드로이드 화면의 구성 단위(px, dp, dpi)](https://github.com/eia51/TIL/blob/main/Android/android_view.md)
 > - [의도하지 않은 Activity의 종료에 대응하기](https://github.com/eia51/TIL/blob/main/Android/prepare_unexpected_terminate.md)
-> - [Room Database](https://github.com/eia51/TIL/blob/main/Android/android_component.md)
+> - [Room Database](https://github.com/eia51/TIL/blob/main/Android/android_room.md)
 > 
 <br/>
 
