@@ -49,9 +49,9 @@
 ## 이미지 로드할 방법 정하기
 안드로이드에서 이미지 로딩을 하기 위해 로딩 라이브러리를 직접 구현 할 수도, 이미 만들어진 라이브러리를 사용 할 수도 있습니다.
 
-이미지 로딩 라이브러리를 직접 구현하기 위해선 `안정적인 HTTP 통신` `OOM을 회피하는 비트맵 디코딩` `메모리/디스크 캐싱` `병렬처리` `실패처리` 등의 내용을 고민해야 합니다. 보다 자세한 내용이 궁금하다면, 이 [[링크]](https://d2.naver.com/helloworld/429368)를 참조 하세요.
+이미지 로딩 라이브러리를 직접 구현하기 위해선 `안정적인 HTTP 통신` `OOM을 회피하는 비트맵 디코딩` `메모리/디스크 캐싱` `병렬처리` `실패처리` 등의 내용을 고민해야 합니다. 보다 자세한 내용이 궁금하다면, 이 [[링크]](https://d2.naver.com/helloworld/429368)를 참조 해보시길 바랍니다.
 
-이 포스팅에서는 주로 사용되어지고 있는 이미지 로딩 라이브러리들에 대한 분석과 이를 통한 선택의 기준을 제시하는 것을 목표로 합니다.
+이 포스팅에서는 주로 사용되어지고 있는 이미지 로딩 라이브러리들에 대한 분석과 이를 통해 보다 나은 선택의 기준을 제시하는 것을 목표로 합니다.
 
 먼저, <U>결론부터 정리</U>해드리겠습니다.
 
@@ -63,6 +63,61 @@
 >
 > **[ 이럴 때 `Picasso`를 사용하세요 ]**
 > - TODO.. 
+
+<br/>
+
+### 이미지 로딩 라이브러리 성능 비교
+안드로이드에서 대표적으로 사용되고 있는 이미지 라이브러리로는 `Glide` `Picasso` `AUIL` `Volley` 등이 있습니다. 이 각각의 라이브러리의 성능을 비교한다면 다음과 같습니다. ([출처](![](https://images.velog.io/images/eia51/post/b0ce32d4-7191-4889-b1ea-9da41d6a8561/image.png)))
+![](https://images.velog.io/images/eia51/post/7029f455-46d7-4c7a-bd09-dbe54a8e0f36/cmp_library.png)
+
+- `Glide` : 스크롤 시 많은 메모리 사용, 빠른 로딩 속도
+- `Picasso` : 기본적으로 많은 메모리를 사용, 스크롤 시 효율적인 메모리 관리
+- `AUIL` : 메모리를 많이 사용하며, 낮은 로딩속도, 캐시 히팅률
+- `Volley` : 스크롤 시 메모리를 많이 사용, 낮은 캐시 효율
+
+이 실험을 통해 `Glide` `Picasso`가 안드로이드의 이미지 로딩 라이브러 중 비교적 좋은 효율을 낸다는 것을 알 수 있습니다.
+
+<br/>
+
+### Glide vs Picasso
+`Glide`는 썸네일, GIF 로딩, 동영상 미리보기 기능까지 많은 기능을 지원하는 구글의 이미지 라이브러리입니다. 전체 이미지 라이브러리 중 가장 빠른 로딩속도를 자랑합니다.
+
+`Picasso`는 `Glide`가 등장하기 전 안드로이드에서 이미지 로딩을 위해 사용되어지던 라이브러리입니다. 
+
+#### 기본 사용법
+기본적인 사용 방법은은 `Glide` `Picasso` 모두 같은 방식입니다. 앱모듈의 `build.gradle`에 다음 종속성을 추가함으로써 이 라이브러리들을 사용할 수 있습니다.
+
+```java
+dependencies { 
+	//Glide
+	implementation 'com.github.bumptech.glide:glide:4.10.0'
+    
+	//Picasso
+	implementation 'com.squareup.picasso:picasso:2.71828'
+}
+```
+```java
+//Glide
+Glide.with(context).load("이미지경로").into(imageView);
+
+//Picasso
+Picasso.with(context).load("이미지경로").into(imageView);
+```
+ 
+#### 기본 비트맵 포맷
+기본적으로 `Glide`는 `RGB 565` 포맷을 사용하며, `Picasso`는 `ARGB 8888` 포맷을 사용합니다.
+
+`RGB 565`은 이미지를 나타내기 위해 픽셀 당 2byte가 필요하며, `ARGB 8888`는  4byte를 필요로 합니다.
+
+![](https://images.velog.io/images/eia51/post/13fa2715-3877-4d09-99f1-5d87204dfb6a/bitmap.png)
+
+위 사진은 동일한 사진을 각각 `RGB 565` `ARGB 8888`로 나타낸 것입니다.
+자세히 보면 `RGB 565`가 색의 음영이 지는 Gradient를 표시하는 부분에서 픽셀의 끊김 현상이 발생 하는 것을 볼 수 있습니다.
+
+![](https://images.velog.io/images/eia51/post/19c2fb85-78e9-4ba6-a8a8-45451eb7c1d6/bitmap2.png)
+
+<br/>
+
 
 ---
 
