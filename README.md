@@ -17,8 +17,9 @@
 > - [안드로이드 화면의 구성 단위(px, dp, dpi)](https://github.com/eia51/TIL/blob/main/Android/android_view.md)
 > - [의도하지 않은 Activity의 종료에 대응하기](https://github.com/eia51/TIL/blob/main/Android/prepare_unexpected_terminate.md)
 > - [Room Database](https://github.com/eia51/TIL/blob/main/Android/android_room.md)
+> - [안드로이드 이미지 최적화](https://github.com/eia51/TIL/blob/main/Android/android_optimize_image_loading.md)
 > 
-<br/>
+> <br/>
 
 ## Infra
 > - [Ch 0. 대규모 서비스의 특성](https://github.com/eia51/TIL/blob/main/Infra/0_feature_of_large_scale_server.md)
