@@ -18,7 +18,7 @@
 > - [안드로이드 화면의 구성 단위(px, dp, dpi)](https://github.com/eia51/TIL/blob/main/Android/Study/android_view.md)
 > - [의도하지 않은 Activity의 종료에 대응하기](https://github.com/eia51/TIL/blob/main/Android/Study/prepare_unexpected_terminate.md)
 > - [Room Database](https://github.com/eia51/TIL/blob/main/Android/Study/android_room.md)
-> - [안드로이드 이미지 최적화](https://github.com/eia51/TIL/blob/main/Android/Study/android_optimize_image_loading.md)
+> - [안드로이드 이미지 로딩 최적화](https://github.com/eia51/TIL/blob/main/Android/Study/android_optimize_image_loading.md)
 #### Trouble Shooting
 > - [Gradle/JDK 에러(Unsupported class file major version)](https://github.com/eia51/TIL/blob/main/Android/TroubleShooting/unsupported_class_file_major_version.md)
 
