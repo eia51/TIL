@@ -6,13 +6,11 @@
 <br/>
 
 ## Java
-#### Study
 > - [Annotation](https://github.com/eia51/TIL/blob/main/Java/Study/Annotation.md)
 #### 문제해결
 > - [멀티스레드 환경에서 SimpleDateFormat 사용 시 주의할 점](https://github.com/eia51/TIL/blob/main/Java/TroubleShooting/caution_of_using_sdf_at_multi_thread.md)
 
 ## Android
-#### Study
 > - [안드로이드 4대 컴포넌트](https://github.com/eia51/TIL/blob/main/Android/Study/android_component.md)
 > - [의도하지 않은 Activity의 종료에 대응하기](https://github.com/eia51/TIL/blob/main/Android/Study/prepare_unexpected_terminate.md)
 > - [View가 그려지는 과정](https://github.com/eia51/TIL/blob/main/Android/Study/android_view.md)
