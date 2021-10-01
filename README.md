@@ -16,6 +16,7 @@
 > - [View가 그려지는 과정](https://github.com/eia51/TIL/blob/main/Android/Study/android_view.md)
 > - [화면의 구성 단위(px, dp, dpi)](https://github.com/eia51/TIL/blob/main/Android/Study/android_view.md)
 > - [Room Database](https://github.com/eia51/TIL/blob/main/Android/Study/android_room.md)
+> - [DataStore](https://github.com/eia51/TIL/blob/main/Android/Study/android_datastore.md)
 > - [이미지 로딩 최적화](https://github.com/eia51/TIL/blob/main/Android/Study/android_optimize_image_loading.md)
 > - [의도하지 않은 Activity의 종료에 대응하기](https://github.com/eia51/TIL/blob/main/Android/Study/prepare_unexpected_terminate.md)
 #### 문제해결
