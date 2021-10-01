@@ -17,8 +17,8 @@
 
 위 내용을 요약하자면,
 
-- `Flow`를 사용하여 I/O에 대한 비동기 처리가 가능.
-- `Dispatcher.IO` 하위에서 동작하여 `MainThread`에서 호출되어도 안전함.
+- `Flow`를 사용하여 I/O에 대한 비동기 처리가 가능
+- `Dispatcher.IO` 하위에서 동작하여 `MainThread`에서 호출되어도 안전함
 - `RuntimeException`으로부터 안전함
 
 이젠 더 이상 `SharedPreference`의 사용을 고집 할 필요가 없을 것 같다.
