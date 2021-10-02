@@ -18,7 +18,8 @@
 그러나 코루틴은 조금 다르게 동작한다.
 
 
- ![](https://images.velog.io/images/eia51/post/03294ef6-d629-4269-a508-0c16369e3e7e/coroutin_coroutin.png)
+![](https://images.velog.io/images/eia51/post/227266c4-b561-4b2a-af95-b243e1d9b132/coroutin_coroutin.png)
+
 
 코루틴은 함수에 진입 할 수 있는 진입점도 여러개이고, 빠져나갈 수 있는 탈출점도 여러개이다.
 즉 코루틴 함수는 꼭 `return`문이나 마지막 닫는 괄호를 만나지 않더라도 언제나 중간에 나갈 수 있고 언제든지 다시 나갔던 그 지점으로 돌아올 수 있다.
