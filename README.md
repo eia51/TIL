@@ -23,6 +23,7 @@
 > - [Coroutin](https://github.com/eia51/TIL/blob/main/Android/Study/android_coroutin.md)
 #### 문제해결
 > - [Gradle/JDK 에러(Unsupported class file major version)](https://github.com/eia51/TIL/blob/main/Android/TroubleShooting/unsupported_class_file_major_version.md)
+> - [ExoPlayer 코덱 재생 유효성 검증하기](https://github.com/eia51/TIL/blob/main/Android/TroubleShooting/android_valid_check_exo_codec.md)
 
 <br/>
 
