@@ -1,4 +1,5 @@
 # ExoPlayer Codec 유효성 검증하기
+
 Android에서 ExoPlayer로 영상을 스트리밍해주는 서비스를 만들다보면 내가 제공하는 영상들이 클라이언트 측에서 정상적으로 재생 되는지 궁금 할 수 있다.
 
 실제로 안드로이드를 빌드 한 제조사 별로 해당 버전에서 지원하는 Video, Audio 코덱이 달라질 수 있기 때문에 당장 내가 가지고 있는 데모 기기에서 정상적으로 재생되는 영상이라고 해도 특정 기기에서는 정상적으로 재생 되지 않을 수 있다.
@@ -61,21 +62,21 @@ public class ExoPlayerEventListener implements Player.EventListener {
 다시 Audio Codec 이야기로 돌아와서, 여기서 말하는 트랙, 정확히는 '오디오' 트랙에 대한 정보가 없는 경우 재생 과정에서 오디오에 문제가 발생한 상황이라고 볼 수 있다.
 
 ### Track 정보 확인하기
-#### ◇ Player.EventListener#onTracksChanged
+#### onTracksChanged() [Player.EventListener]
 트랙 정보는 일반적으로 `Player.EventListener`에 정의 되어 있는 `onTracksChanged()`에서 변경 내용을 확인 할 수 있다.
 
 그러나 여기서 확인 가능한 트랙 정보는 온전히 신뢰 할 수는 없다. 파라미터의 `TrackGroupArray` 안에 Audio, Video 코덱에 대한 정보가 `Format` 클래스로 래핑되어 들어있는데, 여기로 전달 된 코덱들이 전부 재생에 성공 한 유효한 코덱이라는 보장이 없기 때문이다. 오디오 디코더 초기화 과정에서 에러가 난 코덱이라고 해도 이 부분에서는 별 다른 에러 메세지 없이 `audio/코뎅명` 형태로 참조가 가능하다.
 
 미디어 파일에 Audio Codec이 아예 없는 케이스는 이곳에서 걸러 낼 수 있겠지만, Codec 간 호환성 확인은 어렵다.
 
-#### ◇ AnalyticsListener#onAudioDecoderInitialized
-플레이 패턴에 대한 분석을 위해 존재하는 `AnalyticsListener`에 정의 된 `onAudioDecoderInitialized()` `onVideoDecoderInitialized()`를 통해서도 코덱 확인이 가능하다. 그러나 역시 이 경우에도 문제는 있다.
+#### onAudioDecoderInitialized() [AnalyticsListener]
+플레이 패턴에 대한 분석을 위해 존재하는 `AnalyticsListener()`에 정의 된 `onAudioDecoderInitialized()` `onVideoDecoderInitialized()`를 통해서도 코덱 확인이 가능하다. 그러나 역시 이 경우에도 문제는 있다.
 
 `on***DecoderInitialized()` 콜백은 정상적으로 재생 준비가 완료 됐을 때 호출 되는 콜백이다. 심지어 변경이 없을 시 최초 1회만 호출 되는 콜백이다.
 
 재생 준비가 완료 됐을 때 호출 된다 함은 내가 호환하지 않는 코덱에 대한 처리를 이곳에서 수행 할 수 없다는 의미이기도 하다. (실제로 지원하지 않는 코덱을 재생 시도하면 해당 콜백이 호출 되지 않는다.)
 
-#### ◇ TrackSelector 커스터마이징
+#### TrackSelector 커스터마이징
 추가적인 자료 조사보단, 차라리 기존에 배포 된 TrackSelector를 커스터마이징 하여 사용하는 것이 당장의 처리나, 이후 확장성 측면에서도 유리 할 것 같아서 직접 커스터마이징 하도록 한다.
 
 
@@ -94,15 +95,25 @@ ExoPlayer 의존성에 포함 된 `DefaultTrackSelector`의 위치로 이동하�
 
 이 함수를 보면 VideoRenderer에 대한 선택, AudioRenderer에 대한 선택, 자막 및 기타 Renderer에 대한 선택이 순차적으로 작성 된 for문에 의해서 확인 되는 것을 볼 수 있다.
 
-![](https://images.velog.io/images/eia51/post/13d53d4d-13de-4650-96d0-6d6b523ccc02/lol.jpg)
+이 for문은 `mappedTrackInfo.getRendererType()` 의 결과로 반환 된 Renderer의 정보를 참조하여 수행 된다.
 
-> 처음 이 함수를 보고 **"이렇게 끔찍한 혼종이 있다니..!"** 하는 생각을 감출 수 없었다.
+처음 이 함수를 보고 **"이렇게 끔찍한 혼종이 있다니..!"** 하는 생각을 감출 수 없었다.
 
 같은 배열을 3번에 거쳐 나눠 돌면서 비디오, 오디오, 자막 등의 정보를 초기화 하는 모습이
- 너무 비효율적으로 비춰졌기 때문이다.
+ 내 눈엔 너무 비효율적으로 비춰졌기 때문이다.
  
- 한참의 고민 끝에  TODO
+잠깐의 고민 뒤 나는 다음과 같은 결론을 내렸다. 
+
+> 1. `mappedTrackInfo.getRendererType()` 의 배열 사이즈는 최대 5를 넘어가지 않는 수준.
+> 2. 배열 반복 루프를 한 번 돌리거나, 세 번 돌리거나 하는 부분에서 오는 성능 차이는 크지 않다.
+> 3. 루프 횟수를 늘리는 대신 가독성을 챙긴다.
  
+실제로 반복 루프가 늘긴 했지만 한눈에 구조를 파악 가능할 정도로 가독성은 좋았고, 코드 흐름을 파악하는 것이 전혀 어렵지 않았다.
+
+역시 구글은 다 생각이 있구나...
+
+![](https://images.velog.io/images/eia51/post/8a9866e3-dd8c-46b2-89fd-969f819dfdb8/plan.jpg)
+
 본론으로 돌아와, selectAllTracks의 Audio Track을 셀렉트 하는 부분의 코드를 다음과 같이 변경해준다. 
 
 ```java
@@ -138,18 +149,13 @@ for (int i = 0; i < rendererCount; i++) {
         }
         //실제 우리가 눈여겨 봐야 하는 부분이다. <------- ★★★
         else {
-            TrackGroupArray tga = mappedTrackInfo.getTrackGroups(i);
-            Dlog.e("jyDBG", "Not support audio format! : " + tga);
-            String audioCodecInfo = "not_confirmed";
-            for (int i_tga = 0; i_tga < tga.length; i_tga++) {
-                TrackGroup tg = tga.get(i_tga);
-                for (int i_fm = 0; i_fm < tg.length; i_fm++) {
-                    audioCodecInfo = tg.getFormat(i_fm).sampleMimeType;
-                }
-            }
-
-            callback.report(audioCodecInfo);
-            callback.forcesNextPlay();
+            // Not support audio format !
+            TrackGroupArray tga = mappedTrackInfo.getTrackGroups(i);           
+            // audioCodecInfo Sample : audio/mpeg-Layer2
+            String audioCodecInfo = tga.get(0).getFormat(0).sampleMimeType;
+           			
+            //콜백을 통한 후처리
+            callback.reportAndNextPlay(audioCodecInfo);            
         }
     }
 }
@@ -162,17 +168,13 @@ for (int i = 0; i < rendererCount; i++) {
 
 `Pair<ExoTrackSelection.Definition, AudioTrackScore>` 타입의 audioSelection을 만들어주는 `selectAudioTrack`의 내부를 보면, 선택 된(유효한) 그룹 인덱스가 없을 때 `null`을 반환하도록 작성 되어 있기 때문이다.
 
-우리는 이 부분을 활용 해서 예외처리를 할 수 있다.
-
-
-> 지금 코로나 백신을 맞은 직후인데, 몸이 너무 아프니 나머지는 내일 작성해야지...
+우리는 이 부분을 활용 해서 예외처리를 할 수 있다. 필자의 경우 콜백 인터페이스를 정의해두고, 해당 콜백을 호출하는 방식으로 처리했다. 이 콜백 인터페이스는 `CustomTrackSelector` 인스턴스를 생성하는 상위 클래스에서 정의 하였으며, 서버로 문제 상황을 리포트하고, 다음 영상을 이어서 재생하는 로직을 포함하도록 작성했다.
 
 <br/>
 
 ## 마무리
-위에서 소개한 비디오, 오디오 코덱 문제로 인한 재생 실패 리포트는 말 그대로 문제에 대한 내용을 개발자가 리포트 받아 재발하지 않도록 하는 것을 목표로 한다.
+위에서 소개한 `TrackSelector` 확장에 대한 내용은 단순히 발생 한 문제에 대한 내용을 보고 받기 위함이다. 이러한 문제가 발생 했을 때 안드로이드 앱에서는 사용자에게 재생 실패 상황을 납득시켜 주기 위한 별도의 처리가 필요하며, 이런 문제를 리포트 받은 서버에서는 해당 영상의 오디오 트랙을 재인코딩해서 다시 업로드 하는 자동화 된 프로세스를 구축하는 것이 필요하다.
 
-이와 별개로 재생 실패가 됐을 때 이에 따른 적절한 후속 처리도 필요할 것이다. (예를 들면 팝업 메세지와 함께 이전 화면으로 보내주는 식의 처리..)
 
 플레이어를 통해 영상을 재생하는 프로그램을 만드는 것은 간단하지만, 이를 사용자 경험과 성능에 대한 최적화 측면까지 고려하면서 작업하는 것은 쉽지 않은 일이다.
 
