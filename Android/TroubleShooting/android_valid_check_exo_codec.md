@@ -83,11 +83,19 @@ public class ExoPlayerEventListener implements Player.EventListener {
 **1. DefaultTrackSelector 확장 클래스 생성**
 ```java
 public class CustomTrackSelector extends DefaultTrackSelector {
+    // 에러가 발생 했을 때 실행 할 콜백
+    public interface ErrorHandleingCallback {
+    	void reportAndNextPlay(String codec);
+    }
 
+    private ErrorHandleingCallback callback;
+    public CustomTrackSelector(Context c, ErrorHandleingCallback callback) {
+    	super(c);
+    	this.callback = callback;
+    }
 }
 ```
-프로젝트 경로에 위와 같이 ExoPlayer에서 기본적으로 사용하는 DefaultTrackSelector를 상속받는 클래스를 정의한다.
-
+프로젝트 경로에 위와 같이 ExoPlayer에서 기본적으로 사용하는 DefaultTrackSelector를 상속받는 클래스를 정의한다. 그리고 문제 상황을 캐치 했을 때 실행 되어야 할 예외처리 콜백 인터페이스를 생성자를 통해 주입 받을 수 있도록 작성한다.
 
 **2. selectAllTracks 재정의**
 확장 클래스를 정의했다면, 이제 실제 트랙을 선택하는 부분을 커스터마이징 해야 한다.
