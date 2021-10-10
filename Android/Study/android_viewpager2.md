@@ -142,54 +142,53 @@ viewPager.setPageTransformer { page, position ->
 ## ViewPager2 사용 시 주의사항
 `ViewPager2`를 적용 할 때 몇가지 주의 해야 할 사항이 있습니다.
 
-#### Pages must fill the whole ViewPager2 (use match_parent)
-`ViewPager2`의 ChildView를 `inflate` 할 경우에
+- ### Pages must fill the whole ViewPager2 (use match_parent)
+  `ViewPager2`의 ChildView를 `inflate` 할 경우에 attachToRoot 값은 `false`여야 하고 width, height 값은 `match_parent` 여야 합니다.
 
-```kotlin
-LayoutInflater.from(context).inflate(resource, this, attachToRoot)
-```
-attachToRoot 값은 `false`여야 하고 width, height 값은 `match_parent` 여야 합니다.
+   ```kotlin
+   LayoutInflater.from(context).inflate(resource, this, attachToRoot)
+   ```  
 
-그렇지 않을 경우 다음과 같은 에러 메세지가 뜹니다.
+   그렇지 않을 경우 다음과 같은 에러 메세지가 뜹니다.
 
-```java
-java.lang.IllegalStateException: Pages must fill the whole ViewPager2 (use match_parent) 
-  at androidx.viewpager2.widget.ViewPager2$2.onChildViewAttachedToWindow(ViewPager2.java:170)
-```
+   ```java
+   java.lang.IllegalStateException: Pages must fill the whole ViewPager2 (use match_parent) 
+     at androidx.viewpager2.widget.ViewPager2$2.onChildViewAttachedToWindow(ViewPager2.java:170)
+   ```
 
-이런 에러가 발생하는 이유는 `ViewPager2`가 `initialize` 할 때 `addOnChildAttachStateChangeListener`를 설정 하는데 이 과정에서 `enforceChildFillListener`를 등록하게 됩니다. 
+   이런 에러가 발생하는 이유는 `ViewPager2`가 `initialize` 할 때 `addOnChildAttachStateChangeListener`를 설정 하는데 이 과정에서 `enforceChildFillListener`를 등록하게 됩니다. 
 
-해당 메서드를 살펴보면, `layoutParam`의 `width` 또는 `height`가 `match_parent`가 아닐 경우 예외를 발생시키도록 설정 되어 있습니다.
+   해당 메서드를 살펴보면, `layoutParam`의 `width` 또는 `height`가 `match_parent`가 아닐 경우 예외를 발생시키도록 설정 되어 있습니다.
 
-```java
-private RecyclerView.OnChildAttachStateChangeListener enforceChildFillListener() {
-    return new RecyclerView.OnChildAttachStateChangeListener() {
-        @Override
-        public void onChildViewAttachedToWindow(@NonNull View view) {
-            RecyclerView.LayoutParams layoutParams =
-                    (RecyclerView.LayoutParams) view.getLayoutParams();
-            if (layoutParams.width != LayoutParams.MATCH_PARENT
-                    || layoutParams.height != LayoutParams.MATCH_PARENT) {
-                throw new IllegalStateException("Pages must fill the whole ViewPager2 (use match_parent)");
-            }
-        }
-    };
-}
-```
-때문에 ChildView의 width, height는 `match_parent`로 설정 되어야 합니다.
+   ```java
+   private RecyclerView.OnChildAttachStateChangeListener enforceChildFillListener() {
+       return new RecyclerView.OnChildAttachStateChangeListener() {
+           @Override
+           public void onChildViewAttachedToWindow(@NonNull View view) {
+               RecyclerView.LayoutParams layoutParams =
+                       (RecyclerView.LayoutParams) view.getLayoutParams();
+               if (layoutParams.width != LayoutParams.MATCH_PARENT
+                       || layoutParams.height != LayoutParams.MATCH_PARENT) {
+                   throw new IllegalStateException("Pages must fill the whole ViewPager2 (use match_parent)");
+               }
+           }
+       };
+   }
+   ```
+   때문에 ChildView의 width, height는 `match_parent`로 설정 되어야 합니다.
 
-#### PageTransformer 설정 뒤 notifyDataSetChanged() 호출 시 View가 깨지는 문제
+<br/>
 
-`ViewPager2`에 `PageTransformer`을 설정 한 뒤, 데이터를 추가하고나서 `notifyDataSetChanged()` 메서드를 호출 하면 뷰가 깨지는 현상이 발생합니다.
+- ### PageTransformer 설정 뒤 notifyDataSetChanged() 호출 시 View가 깨지는 문제
 
-그 이유는 `notifyDataSetChanged()` 메서드를 호출 하게 되면
+   `ViewPager2`에 `PageTransformer`을 설정 한 뒤, 데이터를 추가하고나서 `notifyDataSetChanged()` 메서드를 호출 하면 뷰가 깨지는 현상이 발생합니다.
 
-`LayoutManager는` 강제로 현재 보이는 모든 `View`들에 대해서 `rebind` `relayout`을 수행하게 되는데, 이 과정에서 `PageTransformer`의 설정이 다시 적용되지 않기 때문입니다.
+   그 이유는 `notifyDataSetChanged()` 메서드를 호출 하게 되면 `LayoutManager는` 강제로 현재 보이는 모든 `View`들에 대해서 `rebind` `relayout`을 수행하게 되는데, 이 과정에서 `PageTransformer`의 설정이 다시 적용되지 않기 때문입니다.
 
-전체를 갱신 하는 `notifyDataSetChanged()` 메서드 대신에 다음과 같이 부분 갱신을 수행하는 메서드를 호출하게 되면 정상적으로 작동하는것을 확인할 수 있습니다.
+   전체를 갱신 하는 `notifyDataSetChanged()` 메서드 대신에 다음과 같이 부분 갱신을 수행하는 메서드를 호출하게 되면 정상적으로 작동하는것을 확인할 수 있습니다.
 
-- `notifyItemChanged(int)`
-- `notifyItemRangeChanged(int, int)`
+   - `notifyItemChanged(int)`
+   - `notifyItemRangeChanged(int, int)`
 
 <br/>
 
