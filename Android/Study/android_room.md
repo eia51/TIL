@@ -153,7 +153,7 @@ Room 2.1 이상 버전에선 데이터베이스 `View`를 지원합니다. `View
 @DatabaseView ("SELECT user.id, user,name, user.departmentId, 
 		department.name AS departmentName 
         	FROM user INNER JOIN department 
-            	ON user.departmentId=department.id)
+            	ON user.departmentId=department.id")
 public class UserDetail {
 	public long id;
     public String name;
