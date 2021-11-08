@@ -18,7 +18,7 @@ fun main() = with(BufferedReader(InputStreamReader(System.`in`))) {
                     if ((A[i-1] == B[j-1]) && (A[i-1] == C[k-1]))
                         LCS[i - 1][j - 1][k - 1] + 1
                     else
-                        max(max(LCS[i-1][j][k], LCS[i][j-1][k]), LCS[i][j][k-1])
+                        max(max(LCS[i-1][j][k], LCS[i][j-1][k]), LCS[i][j][k-1]) 
             }
         }
     }
