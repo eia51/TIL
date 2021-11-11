@@ -53,11 +53,14 @@ fun main() = with(BufferedReader(InputStreamReader(System.`in`))) {
 }
 
 fun isAvailable(channel: Int): Boolean {
-    val str = channel.toString()
-    for (i in str) {
-        if (KEYS[i.code - 48] != 1) {
+    var tmp: Int = channel
+    if (channel == 0)
+        return KEYS[channel] == 1
+
+    while (tmp != 0) {
+        if (KEYS[tmp.mod(10)] == 0)
             return false
-        }
+        tmp = tmp.div(10)
     }
     return true
 }
