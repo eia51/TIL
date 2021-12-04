@@ -21,11 +21,9 @@ class P15650 {
     fun solve() {
         n = scan.nextInt()
         m = scan.nextInt()
-
         ans = IntArray(m + 1)
         select = BooleanArray(n + 1)
         recFunc(1)
-
         bw.flush()
         bw.close()
     }
