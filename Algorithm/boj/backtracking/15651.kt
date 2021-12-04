@@ -12,7 +12,6 @@ fun main() = with(BufferedReader(InputStreamReader(System.`in`))) {
             sb.append("\n")
             return
         }
-
         for (i in 1..n) {
             ans[k] = i
             recFunc(k + 1, n, m)
