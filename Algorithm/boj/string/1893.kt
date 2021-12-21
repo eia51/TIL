@@ -8,8 +8,7 @@ private val bw = BufferedWriter(OutputStreamWriter(System.out))
 
 fun main() {
     val n = br.readLine().toInt()
-    for (i in 1..n)
-        solve()
+    for (i in 1..n) solve()
     flush()
 }
 
